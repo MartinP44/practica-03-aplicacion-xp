@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Usuarios registrados')"></head>
+
+<body>
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-4">
+    <h1>Usuarios registrados</h1>
+
+    <div th:if="${usuarios.isEmpty()}">
+        <p>No hay usuarios registrados en el sistema.</p>
+    </div>
+
+    <div th:unless="${usuarios.isEmpty()}">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nombre</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.id}">1</td>
+                <td th:text="${usuario.email}">correo@ejemplo.com</td>
+                <td th:text="${usuario.nombre}">Nombre</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+</body>
+</html>
+
+
