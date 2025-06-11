@@ -1,13 +1,21 @@
 package madstodolist.service;
 
 import madstodolist.dto.UsuarioData;
+import madstodolist.repository.UsuarioRepository;
+
+
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 
 @SpringBootTest
 @Sql(scripts = "/clean-db.sql")
@@ -15,6 +23,10 @@ public class UsuarioServiceTest {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Mock
+    private ModelMapper modelMapper;
+    @Mock
+    private UsuarioRepository usuarioRepository;
 
     // Método para inicializar los datos de prueba en la BD
     // Devuelve el identificador del usuario de la BD
@@ -153,4 +165,28 @@ public class UsuarioServiceTest {
         assertThat(usuario.getEmail()).isEqualTo("user@ua");
         assertThat(usuario.getNombre()).isEqualTo("Usuario Ejemplo");
     }
+
+
+    @Test
+    public void servicioAllUsuariosDevuelveLista() {
+        // GIVEN
+        // Dos usuarios en la BD
+        addUsuarioBD();
+        UsuarioData otro = new UsuarioData();
+        otro.setEmail("otro@ua");
+        otro.setPassword("pwd");
+        usuarioService.registrar(otro);
+
+        // WHEN
+        // solicitamos la lista de todos los usuarios
+        List<UsuarioData> lista = usuarioService.allUsuarios();
+
+        // THEN
+        // debe devolver exactamente dos elementos con los correos registrados
+        assertThat(lista).hasSize(2);
+        assertThat(lista)
+            .extracting(UsuarioData::getEmail)
+            .containsExactlyInAnyOrder("user@ua", "otro@ua");
+    }
+
 }
