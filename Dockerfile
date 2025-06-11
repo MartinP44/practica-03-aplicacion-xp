@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-COPY target/*.jar app.jar
+COPY target/epn-todolist-martin-1.1.0.jar app.jar
 
 
 # Añadida la opción java.security.egd para evitar que el servidor se cuelgue en Digitalocean
