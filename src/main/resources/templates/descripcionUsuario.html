@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Descripción de usuario')"></head>
+
+<body>
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-4">
+    <h1>Descripción de usuario</h1>
+
+    <div th:if="${usuario == null}">
+        <p class="text-danger">Usuario no encontrado.</p>
+    </div>
+
+    <div th:if="${usuario != null}">
+        <ul class="list-group">
+            <li class="list-group-item"><strong>ID:</strong> <span th:text="${usuario.id}">1</span></li>
+            <li class="list-group-item"><strong>Email:</strong> <span th:text="${usuario.email}">ejemplo@ua.com</span></li>
+            <li class="list-group-item"><strong>Nombre:</strong> <span th:text="${usuario.nombre}">Nombre</span></li>
+            <li class="list-group-item"><strong>Fecha de nacimiento:</strong>
+                <span th:text="${usuario.fechaNacimiento != null ? #dates.format(usuario.fechaNacimiento, 'dd/MM/yyyy') : 'No especificada'}"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+</body>
+</html>
